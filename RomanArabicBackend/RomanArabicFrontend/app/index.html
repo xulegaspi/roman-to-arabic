@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My AngularJS App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">-->
+  <!--<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">-->
+  <!--<link rel="stylesheet" href="app.css">-->
+    <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div id="FirstDiv" style="width: 30%; margin: auto;">
+        <title>Roman Numerals Kata</title>
+        <!--<center>-->
+        <div style="width: 100%; margin: auto; text-align: center">
+            <h1>Roman Numerals Kata</h1>
+        </div>
+
+        <div class="menu" id="section1">
+
+            <section ng-controller="TabController as tab">
+
+                <ul class="nav nav-tabs">
+                    <li role="presentation" ng-class="{active:tab.isSet(1)}"><a href="#/view1" ng-click="tab.setTab(1)">Roman to Arabic</a></li>
+                    <li role="presentation" ng-class="{active:tab.isSet(2)}"><a href="#/view2" ng-click="tab.setTab(2)">Arabic to Roman</a></li>
+                </ul>
+
+                <!--[if lt IE 7]>
+                  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+                <![endif]-->
+
+                <div id="container" class="panel panel-default" style="text-align: center;">
+                    <div ng-view style="margin-top: 5%; margin-bottom: 2%;"></div>
+                </div>
+
+            </section>
+
+
+            <div>
+                Recent conversions:
+                <table class="table">
+                    <th>Date</th>
+                    <th>From</th>
+                    <!--<th></th>-->
+                    <th>To</th>
+                    <tr ng-repeat="item in recent">
+                        <td>{{item.date}}</td>
+                        <td>{{ (item.conversion == 'rta') ? item.roman : item.arabic }}</td>
+                        <!--<td>-->
+                            <!--<span class="{{ (item.conversion == 'rta') ?-->
+                            <!--'glyphicon glyphicon-arrow-right' : 'glyphicon glyphicon-arrow-left'}}">-->
+                            <!--</span>-->
+                        <!--</td>-->
+                        <td>{{ (item.conversion == 'rta') ? item.arabic : item.roman }}</td>
+                    </tr>
+                </table>
+
+                <!--<div ng-repeat="item in recent">{{item}}</div>-->
+            </div>
+        </div>
+
+    </div>
+<!--</center>-->
+
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="app.js"></script>
+    <script src="view1/view1.js"></script>
+    <script src="view2/view2.js"></script>
+    <script src="components/version/version.js"></script>
+    <script src="components/version/version-directive.js"></script>
+    <script src="components/version/interpolate-filter.js"></script>
+    <script src="bower_components/html5-boilerplate/dist/css/normalize.css" type="text/css"></script>
+    <script src="bower_components/html5-boilerplate/dist/css/main.css" type="text/css"></script>
+    <script src="app.css" type="text/css"></script>
+</body>
+
+</html>

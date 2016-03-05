@@ -1,0 +1,55 @@
+/* app css stylesheet */
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+  width: 50%;
+}
+
+/*.menu > li {*/
+  /*display: inline;*/
+/*}*/
+
+.main_panel {
+  width: 50%;
+  align-content: center;
+}
+
+#section1 {
+  width: 30px;
+  float: left;
+  padding: 10px;
+}
+
+#box {
+  width: 300px;
+  padding: 25px;
+  border: 25px solid navy;
+  margin: 25px;
+}
+
+.all {
+  width: 300px;
+  padding: 25px;
+  border: 25px solid navy;
+  margin: 25px;
+}
+
+#FirstDiv {
+  width: 50%;
+  margin: auto;
+}
+
+table, th , td  {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+table tr:nth-child(odd)	{
+  background-color: #f1f1f1;
+}
+table tr:nth-child(even) {
+  background-color: #ffffff;
+}

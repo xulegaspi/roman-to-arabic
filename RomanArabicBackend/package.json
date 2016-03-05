@@ -1,0 +1,20 @@
+{
+  "name": "roman_arabic_backend",
+  "version": "1.0.0",
+  "description": "Web server",
+  "main": "server.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "tests/test.js",
+    "start": "node server.js"
+  },
+  "author": "Xurxo Legaspi",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "superagent": "^1.8.0-beta.2"
+  }
+}
