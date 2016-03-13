@@ -20,7 +20,6 @@ function roman_to_arabic ( $scope, $http, $rootScope ) {
     };
 
     $scope.submit = function() {
-        //console.log($scope.roman);
         var data = JSON.stringify({
             data: $scope.roman
         });
@@ -37,6 +36,7 @@ function roman_to_arabic ( $scope, $http, $rootScope ) {
     }
 }
 
+// Check if the input value is valid
 function check (val, $scope) {
     if(val) {
         var	str = val.toUpperCase(),

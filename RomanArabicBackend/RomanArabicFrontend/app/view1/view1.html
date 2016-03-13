@@ -1,12 +1,12 @@
 <div ng-controller="roman_to_arabic" style="width: 50%; margin: auto; text-align: left;">
-        <form id="rotoar_form" ng-submit="submit()" autocomplete="off">
-            <input type="text" id="roman" placeholder="Roman number" ng-model="roman"
-                   required="true" ng-pattern="IVXLCDM" ng-change="check(roman)"/>
-            <button type="submit" ng-disabled="!checked">Convert</button>
-            <div ng-bind="valid"></div>
-        </form>
-        <br />
-        <div style="text-align: left; width: 50%;">
-            Answer: <div ng-bind="answer" style="position: relative; width: 50%; float: right"></div>
-        </div>
+    <form id="rotoar_form" ng-submit="submit()" autocomplete="off">
+        <input type="text" id="roman" placeholder="Roman number" ng-model="roman"
+               required="true" ng-pattern="IVXLCDM" ng-change="check(roman)"/>
+        <button type="submit" ng-disabled="!checked">Convert</button>
+        <div ng-bind="valid"></div>
+    </form>
+    <br />
+    <div style="text-align: left; width: 50%;">
+        Answer: <div ng-bind="answer" style="position: relative; width: 50%; float: right"></div>
+    </div>
 </div>

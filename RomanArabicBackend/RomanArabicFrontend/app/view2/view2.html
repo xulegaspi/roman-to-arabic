@@ -1,15 +1,12 @@
 <div ng-controller="arabic_to_roman" style="width: 50%; margin: auto; text-align: left;">
-  <!--<center>-->
     <form id="artoro_form" ng-submit="submit()" autocomplete="off">
-      <input type="number" id="roman" placeholder="Arabic number" ng-model="roman"
-             required="true" ng-change="check(roman)">
-      <button type="submit" ng-disabled="!checked">Convert</button>
-      <div ng-bind="valid"></div>
+        <input type="number" id="roman" placeholder="Arabic number" ng-model="roman"
+                required="true" ng-change="check(roman)">
+        <button type="submit" ng-disabled="!checked">Convert</button>
+        <div ng-bind="valid"></div>
     </form>
     <br />
     <div style="text-align: left; width: 50%;">
-      Answer: <div ng-bind="answer" style="width: 50%; float: right;"></div>
+        Answer: <div ng-bind="answer" style="width: 50%; float: right;"></div>
     </div>
-
-  <!--</center>-->
 </div>
