@@ -18,7 +18,7 @@ function arabic_to_roman ( $scope, $http, $rootScope ) {
     $scope.check = function(val) {
         if(val) {
             //console.log(val.toString().length);
-            if(val.toString().length > 5) {
+            if(val.toString().length > 4) {
                 $scope.valid = "The number you're trying to convert is too long.";
                 $scope.checked = false;
             } else {

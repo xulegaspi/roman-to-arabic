@@ -21,7 +21,6 @@ var conversion = mongoose.Schema({
 });
 
 var Conversion = mongoose.model('Conversion', conversion);
-var prod_db = 'mongodb://Xurxo:xx_rta_pass@ds019468.mlab.com:19468/heroku_3c5mc0tl';
 var dev_db = 'mongodb://localhost/test';
 
 mongoose.connect(dev_db);
@@ -37,7 +36,7 @@ db.once('open', function () {
         var resul;
         now = new Date();
 
-        console.log(req.method);
+        //console.log(req.method);
 
         if(req.method == "POST") {
             switch(req.url) {
@@ -46,37 +45,53 @@ db.once('open', function () {
                     req.on('data', function(chunk) {
                         var value = JSON.parse(chunk);
 
-                        Conversion.find({roman: value.data.toUpperCase()}, function(err, conversions) {
-                            if(err) {
-                                console.log(err);
-                            } else {
-                                if (conversions.length > 0) {
-                                    resul = conversions[0].arabic;
-                                    console.log("DATA RETRIEVED: " + resul);
-                                    console.log(conversions[0].date);
-                                    Conversion.update({arabic: resul}, {date: now}, function(err, conv) {
-                                        console.log(conv);
-                                    });
+                        if(value.data) {
+                            Conversion.find({roman: value.data.toUpperCase()}, function (err, conversions) {
+                                if (err) {
+                                    console.log(err);
                                 } else {
-                                    //console.log(conversions.length);
-                                    resul = roman_to_arabic(chunk);
-                                    aux = new Conversion({
-                                        date: now,
-                                        roman: value.data.toUpperCase(),
-                                        arabic: resul,
-                                        conversion: 'rta'
-                                    });
-                                    aux.save(function (err, conv) {
-                                        console.log("Succesfully saved.");
-                                    });
-                                    console.log(aux);
+                                    if (conversions.length > 0) {
+                                        resul = conversions[0].arabic;
+                                        //console.log("DATA RETRIEVED: " + resul);
+                                        //console.log(conversions[0].date);
+                                        if (conversions[0].conversion == "atr") {
+                                            Conversion.update({arabic: resul}, {
+                                                date: now,
+                                                conversion: "rta"
+                                            }, function (err, conv) {
+                                                //console.log(conv);
+                                            });
+                                        } else {
+                                            Conversion.update({arabic: resul}, {date: now}, function (err, conv) {
+                                                //console.log(conv);
+                                            });
+                                        }
+                                    } else {
+                                        //console.log(conversions.length);
+                                        resul = roman_to_arabic(chunk);
+                                        aux = new Conversion({
+                                            date: now,
+                                            roman: value.data.toUpperCase(),
+                                            arabic: resul,
+                                            conversion: 'rta'
+                                        });
+                                        aux.save(function (err, conv) {
+                                            //console.log("Succesfully saved.");
+                                        });
+                                        //console.log(aux);
+                                    }
+                                    res.write(resul.toString());
+                                    res.end();
                                 }
-                                res.write(resul.toString());
-                                res.end();
-                            }
-                        });
+                            });
+                        } else {
+                            //console.log("WRONG KEY");
+                            res.writeHead(400);
+                            res.end();
+                        }
 
                     });
+
                     custom = true;
                     break;
 
@@ -84,30 +99,49 @@ db.once('open', function () {
                     req.on('data', function(chunk) {
                         var value = JSON.parse(chunk);
 
-                        Conversion.find({arabic: value.data}, function(err, conversions) {
-                            if(err) {
-                                console.log(err);
-                            } else {
-
-                                if(conversions.length > 0) {
-                                    resul = conversions[0].roman;
-                                    console.log("DATA RETRIEVED: " + resul);
-                                    console.log(conversions[0].date);
-                                    Conversion.update({roman: resul}, {date: now}, function(err, conv) {
-                                        console.log(conv);
-                                    });
+                        if(value.data) {
+                            Conversion.find({arabic: value.data}, function (err, conversions) {
+                                if (err) {
+                                    console.log(err);
                                 } else {
-                                    resul = arabic_to_roman(chunk);
-                                    aux = new Conversion({date: now, roman: resul, arabic: value.data, conversion: 'atr'});
-                                    aux.save(function (err, conv) {
-                                        console.log("Succesfully saved.");
-                                    });
-                                    console.log(aux);
+                                    if (conversions.length > 0) {
+                                        resul = conversions[0].roman;
+                                        //console.log("DATA RETRIEVED: " + resul);
+                                        //console.log(conversions[0].date);
+                                        now = new Date();
+                                        if (conversions[0].conversion == "rta") {
+                                            Conversion.update({roman: resul}, {
+                                                date: now,
+                                                conversion: "atr"
+                                            }, function (err, conv) {
+                                                //console.log("SUCCESSFULL UPDATED");
+                                            });
+                                        } else {
+                                            Conversion.update({roman: resul}, {date: now}, function (err, conv) {
+                                                //console.log(conv);
+                                            });
+                                        }
+                                    } else {
+                                        resul = arabic_to_roman(chunk);
+                                        aux = new Conversion({
+                                            date: now,
+                                            roman: resul,
+                                            arabic: value.data,
+                                            conversion: 'atr'
+                                        });
+                                        aux.save(function (err, conv) {
+                                            //console.log("Succesfully saved.");
+                                        });
+                                        //console.log(aux);
+                                    }
+                                    res.write(resul);
+                                    res.end();
                                 }
-                                res.write(resul);
-                                res.end();
-                            }
-                        });
+                            });
+                        } else {
+                            res.writeHead(400);
+                            res.end();
+                        }
                     });
                     custom = true;
                     break;
@@ -120,7 +154,7 @@ db.once('open', function () {
                             console.log(err);
                         } else {
                             if(convs.length > 0) {
-                                console.log("SENDING --> " + convs.toString());
+                                //console.log("SENDING --> " + convs.toString());
                                 res.write(JSON.stringify(convs));
                                 res.end();
                             }
@@ -130,21 +164,30 @@ db.once('open', function () {
                     break;
 
                 default:
-                    console.log("Incorrect");
-                    res.write("Wrong use");
+                    //console.log("Incorrect");
+                    //res.write("Wrong use");
+                    res.writeHead(400);
                     res.end();
                     break;
             }
             req.on('data', function(chunk) {
-                console.log(req.url);
+                //console.log(req.url);
             });
         } else {
             if(req.method == "GET") {
                 switch(req.url) {
-                    case '/home':
-                        console.log("HELLO");
-                        res.writeHead(200);
-                        res.write('Hello world!');
+                    case '/':
+                        console.log("REDIRECT");
+                        res.writeHead(302, {
+                            'Location': '/index.html'
+                        });
+                        res.end();
+                        custom = true;
+                        break;
+                    case '/index':
+                        res.writeHead(302, {
+                            'Location': '/index.html'
+                        });
                         res.end();
                         custom = true;
                         break;
@@ -179,22 +222,7 @@ db.once('open', function () {
                     if(filename == "/index.html") {
                         infoSent = true;
                     }
-                    //    var resul = Conversion.find({}).sort({'date': -1}).limit(5);
-                    //    resul.exec(function(err, convs) {
-                    //        if(err) {
-                    //            console.log(err);
-                    //        } else {
-                    //            if(convs.length > 0) {
-                    //                console.log("SENDING --> " + convs.toString());
-                    //                res.writeHead(200);
-                    //                res.write(JSON.stringify(convs));
-                    //                //res.end();
-                    //                infoSent = true;
-                    //            }
-                    //        }
-                    //    });
-                    //}
-                    console.log("Serving file: " + localPath);
+                    //console.log("Serving file: " + localPath);
                     getFile(localPath, res, ext);
                 } else {
                     console.log("File not found: " + localPath);
@@ -206,9 +234,10 @@ db.once('open', function () {
         } else {
             if(!custom) {
                 console.log("Invalid file extension detected: " + ext);
-                res.writeHead(302, {
-                    'Location': '/index.html'
-                });
+                res.writeHead(404);
+                //res.writeHead(302, {
+                //    'Location': '/index.html'
+                //});
                 res.end();
             }
         }
@@ -221,10 +250,9 @@ function getFile(localPath, res, mimeType) {
     fs.readFile(localPath, function(err, contents) {
         if(!err) {
             res.setHeader("Content-Length", contents.length);
-            //res.setHeader("Content-Type", mimeType);
             res.statusCode = 200;
             if(infoSent) {
-                console.log(contents);
+                //console.log(contents);
 
                 infoSent = false;
             }
@@ -239,13 +267,13 @@ function getFile(localPath, res, mimeType) {
 
 function roman_to_arabic(value) {
     var data = JSON.parse(value);
-    console.log("ROMAN -> ARABIC: " + deromanize(data.data));
+    //console.log("ROMAN -> ARABIC: " + deromanize(data.data));
     return deromanize(data.data);
 }
 
 function arabic_to_roman(value) {
     var data = JSON.parse(value);
-    console.log("ARABIC -> ROMAN: " + romanize(data.data));
+    //console.log("ARABIC -> ROMAN: " + romanize(data.data));
     return romanize(data.data);
 }
 

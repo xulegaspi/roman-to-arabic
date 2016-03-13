@@ -49,9 +49,15 @@ function check (val, $scope) {
             $scope.checked = false;
             $scope.valid = "Your Roman numeral contains an error.";
         } else {
-            //console.log("VALID");
-            $scope.checked = true;
-            $scope.valid = "";
+            if(str.length > 21) {
+                $scope.checked = false;
+                $scope.valid = "Your Roman numeral is too big.";
+            } else {
+                //console.log("VALID");
+                //console.log(str.length);
+                $scope.checked = true;
+                $scope.valid = "";
+            }
         }
     } else {
         $scope.valid = "";
