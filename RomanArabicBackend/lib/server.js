@@ -216,7 +216,7 @@ db.once('open', function () {
 
         if (isValidExt && !custom) {
 
-            localPath += "\\..\\RomanArabicFrontend\\app" + filename;
+            localPath += "/../RomanArabicFrontend/app" + filename;
             fs.exists(localPath, function(exists) {
                 if(exists) {
                     if(filename == "/index.html") {
